@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\Entity\Game;
 
-class UnoGameService
+class GameService
 {
 
     private array $colors = ["red", "yellow", "green", "blue"];
@@ -19,6 +19,16 @@ class UnoGameService
             "number" => $this->numbers[array_rand($this->numbers)]
         ];
 
+    }
+
+    public function randomHand() : array {
+
+        $hand = [];
+        for ($i = 0; $i < 7; $i++) {
+            $hand[] = $this->randomCard();
+        }
+        
+        return $hand;
     }
 
 }
