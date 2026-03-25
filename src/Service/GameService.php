@@ -31,23 +31,59 @@ class GameService
         return $hand;
     }
 
-    public function playCard(Game $game, array $card) : array {
+    public function nextTurn(int $current): int
+    {
+        return ($current + 1) % 4;
+    }
+
+    public function playable(array $hand, array $pileCard): array {
         
-        $pile = $game->getPile();
-        $pileCard = end($pile);
         $playable = [];
 
-        foreach($cards as $card) {
+        foreach($hand as $card) {
 
             if($card["color"] === $pileCard["color"] || $card["number"] === $pileCard["number"]) {
-                $game->setPile([...$pile, $card]);
                 $playable[] = $card;
             }
-
         }
 
         return $playable;
+    }
 
+    public function playCard(Game $game, array $card, int $playerId): void {
+        
+        $pile = $game->getPile();
+        $pileCard = end($pile);
+        $game->setPile([...$pile, $card]);
+
+        $next = $this->nextTurn($playerId);
+        $game->setCurrentTurn($next);
+
+    }
+
+    public function enemyTurn(Game $game, int $enemyId): void
+    {
+        $pile = $game->getPile();
+        $pileCard = end($pile);
+
+        if ($enemyId === 1) {
+        $hand = $game->getHandEnemy1();
+        } elseif ($enemyId === 2) {
+        $hand = $game->getHandEnemy2();
+        } elseif ($enemyId === 3) {
+        $hand = $game->getHandEnemy3();
+        }
+
+        $playable = $this->playable($hand, $pileCard);
+
+        if (count($playable) > 0) {
+        $playedCard = $playable[array_rand($playable)];
+        }
+
+        $game->setPile([...$pile, $playedCard]);
+
+        $next = $this->nextTurn($enemyId);
+        $game->setCurrentTurn($next);
     }
 
 }

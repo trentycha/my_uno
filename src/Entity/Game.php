@@ -29,7 +29,7 @@ class Game
     private ?array $pile = null;
 
     #[ORM\Column]
-    private ?bool $direction = null;
+    private ?int $currentTurn = 0;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $winner = null;
@@ -95,6 +95,18 @@ class Game
     public function setPile(?array $pile): static
     {
         $this->pile = $pile;
+
+        return $this;
+    }
+
+    public function getCurrentTurn(): ?int
+    {
+        return $this->currentTurn;
+    }
+
+    public function setCurrentTurn(int $currentTurn): static
+    {
+        $this->currentTurn = $currentTurn;
 
         return $this;
     }

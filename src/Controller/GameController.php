@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Game;
 use App\Service\GameService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 final class GameController extends AbstractController
 {
@@ -21,14 +22,14 @@ final class GameController extends AbstractController
         $game->setHandEnemy3($gameService->randomHand());
 
         $start = $gameService->randomCard();
-        $game->setPile($start);
+        $game->setPile([$start]);
 
         $game->setDirection(true);
 
         $entityManager->persist($game);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_play');
+        return $this->redirectToRoute('app_play', ['id' => $game->getId()]);
     }
 
     #[Route('/play/{id}', name: 'app_play')]
@@ -37,9 +38,41 @@ final class GameController extends AbstractController
         $pile = $game->getPile();
         $pileCard = end($pile);
 
-        return $this->render('game/play.html.twig', [
+        $playableCards = [];
+        if ($game->getCurrentTurn() === 0) {
+            $playableCards = $gameService->playable($game->getHandPlayer(), $pileCard);
+        }
+
+        return $this->render('game/index.html.twig', [
             'game' => $game,
             'pileCard' => $pileCard,
+            'playableCards' => $playableCards,
         ]);
+    }
+
+    #[Route('/player/{id}', name: 'app_player')]
+    public function player(Game $game, Request $request, GameService $gameService, EntityManagerInterface $entityManager): Response
+    {
+        $cardId = $request->query->getInt('card');
+        $hand = $game->getHandPlayer();
+        $card = $hand[$cardId];
+
+        $gameService->playCard($game, $card, 0);
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_play', ['id' => $game->getId()]);
+    }
+
+    #[Route('/ennemy/{id}', name: 'app_ennemy')]
+    public function ennemy(Game $game, Request $request, GameService $gameService, EntityManagerInterface $entityManager): Response
+    {
+        $enemyId = $request->query->getInt('enemy');
+
+        $gameService->enemyTurn($game, $enemyId);
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_play', ['id' => $game->getId()]);
     }
 }

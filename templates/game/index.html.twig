@@ -4,26 +4,40 @@
 
 {% block body %}
 
-<p>
-    Couleur : {{ game.pile.color }}
-    </br>
-    Nombre : {{ game.pile.number }}
-</p>
+    <h1>Uno</h1>
 
-<ul>
-    {% for card in game.handPlayer %}
-        {% if card.color != game.pile.color and card.number != game.pile.number %}
-        <li>
-            {{ card.color }} + {{ card.number }}
-        </li>
+    <p>{{ pileCard.color }} - {{ pileCard.number }}</p>
+
+    <h2>Vilain 1</h2>
+    {% for card in game.handEnemy1 %}
+        <li>{{ card.color }} - {{ card.number }}</li>
+    {% endfor %}
+
+    <h2>Vilain 2</h2>
+    {% for card in game.handEnemy2 %}
+        <li>{{ card.color }} - {{ card.number }}</li>
+    {% endfor %}
+
+    <h2>Vilain 3</h2>
+    {% for card in game.handEnemy3 %}
+        <li>{{ card.color }} - {{ card.number }}</li>
+    {% endfor %}
+
+    <h2>Mon jeu</h2>
+    {% for index, card in game.handPlayer %}
+        {% if card in playableCards %}
+            <li><a href="{{ path('app_player', {id: game.id, card: index}) }}">{{ card.color }} - {{ card.number }}</a></li>
         {% else %}
-        <button>
-            {{ card.color }} + {{ card.number }}
-        </button>
+            <li>{{ card.color }} - {{ card.number }}</li>
         {% endif %}
     {% endfor %}
-</ul>
 
-
+    {% if game.currentTurn != 0 %}
+        <script>
+            setTimeout(function () {
+                window.location.href = "{{ path('app_ennemy', {id: game.id, enemy: game.currentTurn}) }}";
+            }, 2000);
+        </script>
+    {% endif %}
 
 {% endblock %}
