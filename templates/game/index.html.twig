@@ -12,9 +12,15 @@
 
 <ul>
     {% for card in game.handPlayer %}
+        {% if card.color != game.pile.color and card.number != game.pile.number %}
         <li>
             {{ card.color }} + {{ card.number }}
         </li>
+        {% else %}
+        <button>
+            {{ card.color }} + {{ card.number }}
+        </button>
+        {% endif %}
     {% endfor %}
 </ul>
 

@@ -28,8 +28,18 @@ final class GameController extends AbstractController
         $entityManager->persist($game);
         $entityManager->flush();
 
-        return $this->render('game/index.html.twig', [
+        return $this->redirectToRoute('app_play');
+    }
+
+    #[Route('/play/{id}', name: 'app_play')]
+    public function play(Game $game, GameService $gameService): Response
+    {
+        $pile = $game->getPile();
+        $pileCard = end($pile);
+
+        return $this->render('game/play.html.twig', [
             'game' => $game,
+            'pileCard' => $pileCard,
         ]);
     }
 }

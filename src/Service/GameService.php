@@ -31,6 +31,25 @@ class GameService
         return $hand;
     }
 
+    public function playCard(Game $game, array $card) : array {
+        
+        $pile = $game->getPile();
+        $pileCard = end($pile);
+        $playable = [];
+
+        foreach($cards as $card) {
+
+            if($card["color"] === $pileCard["color"] || $card["number"] === $pileCard["number"]) {
+                $game->setPile([...$pile, $card]);
+                $playable[] = $card;
+            }
+
+        }
+
+        return $playable;
+
+    }
+
 }
 
 ?>
