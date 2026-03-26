@@ -4,10 +4,12 @@
 
 {% block body %}
 
-<div>
+<h1>My Uno</h1>
 
-    <div class = "top">
-        <div>
+<div class = "table">
+
+    <div class ="top">
+        <div class = "hand">
             {% for card in game.handEnemy2 %}
                 <div class="card {{ card.color }}">{{ card.number }}</div>
             {% endfor %}
@@ -15,29 +17,29 @@
     </div>
 
      <div class = "middle">
-        <div>
+        <div class="hand hand-left">
             {% for card in game.handEnemy1 %}
                 <div class="card {{ card.color }}">{{ card.number }}</div>
             {% endfor %}
         </div>
 
-        <div class="pile">
+        <div class = "pile">
             <div class="card {{ pileCard.color }}">{{ pileCard.number }}</div>
         </div>
 
-        <div>
+        <div class="hand hand-right">
             {% for card in game.handEnemy3 %}
                 <div class="card {{ card.color }}">{{ card.number }}</div>
             {% endfor %}
         </div>
     </div>
 
-    <div class="bottom">
-        <div>
+    <div class = "bottom">
+        <div class="hand">
             {% for index, card in game.handPlayer %}
                 {% if card in playableCards %}
                     <a href="{{ path('app_player', {id: game.id, card: index}) }}">
-                        <div class="card {{ card.color }}">{{ card.number }}</div>
+                        <div class="card {{ card.color }} playable">{{ card.number }}</div>
                     </a>
                 {% else %}
                     <div class="card {{ card.color }}">{{ card.number }}</div>
