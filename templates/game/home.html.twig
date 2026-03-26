@@ -4,13 +4,27 @@
 
 {% block body %}
 
-<div class="home">
+<div class = "home">
 
-    <h1>My Uno</h1>
-    <p>C'est trop bien le Uno !</p>
-    <a href="{{ path('app_start') }}">
-        <div class="btn">Nouvelle partie</div>
-    </a>
+    <div class = "home-card">
+
+        <div class = "wrapper">
+            <img class="image" src="{{ asset('images/uno.jpg') }}" alt="Uno">
+        </div>
+
+        <div class = "info">
+
+            <h3>Jouez au inégalable</h3>
+            <h1>UNO</h1>
+
+            <p>Lancez une partie dès maintenant !</p>
+            <a href ="{{ path('app_start') }}">
+                <div class = "btn">Je commence !</div>
+            </a>
+
+        </div>
+
+    </div>
 
 </div>
 
