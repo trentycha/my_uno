@@ -145,3 +145,5 @@ a { text-decoration: none; }
     filter: brightness(1.2);
 }
 
+.win  { text-shadow: 4px 4px 0px #24ae5e; }
+.lose { text-shadow: 4px 4px 0px #c13425; }

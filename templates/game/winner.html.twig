@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vainqueur{% endblock %}
+
+{% block body %}
+
+<div class = "home">
+
+    <div class = "home-card">
+
+        <div class = "wrapper">
+            {% if winner == 'player' %}
+                    <img class="image" src="{{ asset('images/victory.jpg') }}" alt="Uno">
+                {% else %}
+                    <img class="image" src="{{ asset('images/fail.jpg') }}" alt="Uno">
+            {% endif %}
+        </div>
+
+        <div class="info">
+
+            <h3>Fin de la partie</h3>
+
+            {% if winner == 'player' %}
+                <h1 class="win">WIN</h1>
+            {% else %}
+                <h1 class="lose">LOSE</h1>
+            {% endif %}
+
+            <p>
+                {% if winner == 'player' %}
+                    Bravo, c'est une victoire !
+                {% else %}
+                    {{ winner }} a gagné... Retente ta chance !
+                {% endif %}
+            </p>
+
+            <a href="{{ path('app_start') }}">
+                <div class="btn">Rejouer !</div>
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

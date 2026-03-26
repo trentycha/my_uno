@@ -60,6 +60,11 @@ class GameService
         $hand = array_values(array_filter($hand, fn($c) => $c !== $card));
         $game->setHandPlayer($hand);
 
+        if (count($game->getHandPlayer()) === 0) {
+            $game->setWinner('player');
+            return;
+        }
+
         $next = $this->nextTurn($playerId);
         $game->setCurrentTurn($next);
 
@@ -93,6 +98,11 @@ class GameService
             $game->setHandEnemy2($hand);
         } elseif ($enemyId === 3) {
             $game->setHandEnemy3($hand);
+        }
+
+        if (count($hand) === 0) {
+            $game->setWinner('enemy' . $enemyId);
+            return;
         }
 
         $next = $this->nextTurn($enemyId);

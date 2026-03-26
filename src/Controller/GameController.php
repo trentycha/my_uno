@@ -67,7 +67,11 @@ final class GameController extends AbstractController
 
         $entityManager->flush();
 
+        if ($game->getWinner()) {
+            return $this->redirectToRoute('app_winner', ['id' => $game->getId()]);
+        }
         return $this->redirectToRoute('app_play', ['id' => $game->getId()]);
+
     }
 
     #[Route('/ennemy/{id}', name: 'app_ennemy')]
@@ -79,6 +83,18 @@ final class GameController extends AbstractController
 
         $entityManager->flush();
 
+        if ($game->getWinner()) {
+            return $this->redirectToRoute('app_winner', ['id' => $game->getId()]);
+        }
         return $this->redirectToRoute('app_play', ['id' => $game->getId()]);
     }
+
+    #[Route('/winner/{id}', name: 'app_winner')]
+    public function winner(Game $game): Response
+    {
+        return $this->render('game/winner.html.twig', [
+            'game' => $game,
+        ]);
+    }
+    
 }
