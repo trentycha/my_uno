@@ -9,6 +9,7 @@
 <div class = "table">
 
     <div class ="top">
+        <h2>Joueur 2</h2>
         <div class = "hand">
             {% for card in game.handEnemy2 %}
                 <div class="card {{ card.color }}">{{ card.number }}</div>
@@ -18,6 +19,7 @@
 
      <div class = "middle">
         <div class="hand hand-left">
+        <h2>Joueur 1</h2>
             {% for card in game.handEnemy1 %}
                 <div class="card {{ card.color }}">{{ card.number }}</div>
             {% endfor %}
@@ -28,6 +30,7 @@
         </div>
 
         <div class="hand hand-right">
+        <h2>Joueur 3</h2>
             {% for card in game.handEnemy3 %}
                 <div class="card {{ card.color }}">{{ card.number }}</div>
             {% endfor %}
@@ -35,6 +38,7 @@
     </div>
 
     <div class = "bottom">
+        <h2>Mon jeu</h2>
         <div class="hand">
             {% for index, card in game.handPlayer %}
                 {% if card in playableCards %}

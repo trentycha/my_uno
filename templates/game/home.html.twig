@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Uno{% endblock %}
+
+{% block body %}
+
+<div class="home">
+
+    <h1>My Uno</h1>
+    <p>C'est trop bien le Uno !</p>
+    <a href="{{ path('app_start') }}">
+        <div class="btn">Nouvelle partie</div>
+    </a>
+
+</div>
+
+{% endblock %}

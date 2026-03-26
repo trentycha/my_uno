@@ -12,7 +12,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class GameController extends AbstractController
 {
-    #[Route('/', name: 'app_start')]
+    #[Route('/', name: 'app_home')]
+    public function home(): Response
+    {
+        return $this->render('game/home.html.twig');
+    }
+
+    #[Route('/start', name: 'app_start')]
     public function start(GameService $gameService, EntityManagerInterface $entityManager): Response
     {
         $game = new Game();
