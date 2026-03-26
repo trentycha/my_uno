@@ -56,6 +56,10 @@ class GameService
         $pileCard = end($pile);
         $game->setPile([...$pile, $card]);
 
+        $hand = $game->getHandPlayer();
+        $hand = array_values(array_filter($hand, fn($c) => $c !== $card));
+        $game->setHandPlayer($hand);
+
         $next = $this->nextTurn($playerId);
         $game->setCurrentTurn($next);
 
@@ -81,6 +85,15 @@ class GameService
         }
 
         $game->setPile([...$pile, $playedCard]);
+
+        $hand = array_values(array_filter($hand, fn($c) => $c !== $playedCard));
+        if ($enemyId === 1) {
+            $game->setHandEnemy1($hand);
+        } elseif ($enemyId === 2) {
+            $game->setHandEnemy2($hand);
+        } elseif ($enemyId === 3) {
+            $game->setHandEnemy3($hand);
+        }
 
         $next = $this->nextTurn($enemyId);
         $game->setCurrentTurn($next);
