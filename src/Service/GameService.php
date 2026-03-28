@@ -14,6 +14,14 @@ class GameService
     {
 
         $card = [];
+
+        if (rand(1, 5) === 1) {
+            return [
+                "color" => $this->colors[array_rand($this->colors)],
+                "number" => "R"
+            ];
+        }
+
         return $card = [
             "color" => $this->colors[array_rand($this->colors)],
             "number" => $this->numbers[array_rand($this->numbers)]
@@ -31,9 +39,13 @@ class GameService
         return $hand;
     }
 
-    public function nextTurn(int $current): int
+    public function nextTurn(int $current, bool $direction): int
     {
-        return ($current + 1) % 4;
+        if ($direction) {
+            return ($current + 1) % 4;
+        } else {
+            return ($current + 3) % 4;
+        }
     }
 
     public function playable(array $hand, array $pileCard): array {
@@ -59,6 +71,10 @@ class GameService
 
         $game->setPile([...$pile, $card]);
 
+        if ($card["number"] === "R") {
+            $game->setDirection(!$game->isDirection());
+        }
+
         $hand = $game->getHandPlayer();
         $hand = array_values(array_filter($hand, fn($c) => $c !== $card));
         $game->setHandPlayer($hand);
@@ -68,7 +84,7 @@ class GameService
             return;
         }
 
-        $next = $this->nextTurn($playerId);
+        $next = $this->nextTurn($playerId, $game->isDirection());
         $game->setCurrentTurn($next);
 
     }
@@ -79,7 +95,7 @@ class GameService
         $hand[] = $this->randomCard();
         $game->setHandPlayer($hand);
 
-        $next = $this->nextTurn(0);
+        $next = $this->nextTurn(0, $game->isDirection());
         $game->setCurrentTurn($next);
     }
 
@@ -104,6 +120,10 @@ class GameService
             $playedCard = $playable[array_rand($playable)];
             $game->setPile([...$pile, $playedCard]);
             $hand = array_values(array_filter($hand, fn($c) => $c !== $playedCard));
+
+            if ($playedCard["number"] === "R") {
+            $game->setDirection(!$game->isDirection());
+        }
         }
 
         if ($enemyId === 1) {
@@ -119,7 +139,7 @@ class GameService
             return;
         }
 
-        $next = $this->nextTurn($enemyId);
+        $next = $this->nextTurn($enemyId, $game->isDirection());
         $game->setCurrentTurn($next);
     }
 

@@ -31,6 +31,9 @@ class Game
     #[ORM\Column]
     private ?int $currentTurn = 0;
 
+    #[ORM\Column]
+    private ?bool $direction = null;
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $winner = null;
 
