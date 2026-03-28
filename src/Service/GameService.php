@@ -54,6 +54,9 @@ class GameService
         
         $pile = $game->getPile();
         $pileCard = end($pile);
+        
+        $playable = $this->playable($game->getHandPlayer(), $pileCard);
+
         $game->setPile([...$pile, $card]);
 
         $hand = $game->getHandPlayer();
@@ -68,6 +71,16 @@ class GameService
         $next = $this->nextTurn($playerId);
         $game->setCurrentTurn($next);
 
+    }
+
+    public function drawCard(Game $game): void
+    {
+        $hand = $game->getHandPlayer();
+        $hand[] = $this->randomCard();
+        $game->setHandPlayer($hand);
+
+        $next = $this->nextTurn(0);
+        $game->setCurrentTurn($next);
     }
 
     public function enemyTurn(Game $game, int $enemyId): void
@@ -85,13 +98,14 @@ class GameService
 
         $playable = $this->playable($hand, $pileCard);
 
-        if (count($playable) > 0) {
-        $playedCard = $playable[array_rand($playable)];
+        if (count($playable) === 0) {
+            $hand[] = $this->randomCard();
+        } else {
+            $playedCard = $playable[array_rand($playable)];
+            $game->setPile([...$pile, $playedCard]);
+            $hand = array_values(array_filter($hand, fn($c) => $c !== $playedCard));
         }
 
-        $game->setPile([...$pile, $playedCard]);
-
-        $hand = array_values(array_filter($hand, fn($c) => $c !== $playedCard));
         if ($enemyId === 1) {
             $game->setHandEnemy1($hand);
         } elseif ($enemyId === 2) {

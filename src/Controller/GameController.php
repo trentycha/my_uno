@@ -74,6 +74,16 @@ final class GameController extends AbstractController
 
     }
 
+    #[Route('/draw/{id}', name: 'app_draw')]
+    public function draw(Game $game, GameService $gameService, EntityManagerInterface $entityManager): Response
+    {
+        $gameService->drawCard($game);
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_play', ['id' => $game->getId()]);
+    }
+
     #[Route('/ennemy/{id}', name: 'app_ennemy')]
     public function ennemy(Game $game, Request $request, GameService $gameService, EntityManagerInterface $entityManager): Response
     {
@@ -94,6 +104,7 @@ final class GameController extends AbstractController
     {
         return $this->render('game/winner.html.twig', [
             'game' => $game,
+            'winner' => $game->getWinner(),
         ]);
     }
     

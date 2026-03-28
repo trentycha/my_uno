@@ -49,7 +49,14 @@
                     <div class="card {{ card.color }}">{{ card.number }}</div>
                 {% endif %}
             {% endfor %}
+
+            {% if game.currentTurn == 0 and playableCards is empty %}
+                <a href="{{ path('app_draw', {id: game.id}) }}">
+                    <div class="btn draw">Piocher</div>
+                </a>
+            {% endif %}
         </div>
+
     </div>
 
 </div>
