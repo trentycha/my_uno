@@ -4,13 +4,20 @@
 
 {% block body %}
 
-<h1>My Uno</h1>
+<div class="header">
+
+    <h1>My Uno</h1>
+    <a href="{{ path('app_home') }}">
+        <div class="btn btn-quit">Quitter</div>
+    </a>
+
+</div>
 
 <div class = "table">
 
     <div class ="top">
         <div class="player-info">
-            <img src="{{ asset('images/user.png') }}" alt="Joueur 2" class="avatar avatar-top">
+            <img src="{{ asset(game.currentTurn == 2 ? 'images/user-play.png' : 'images/user.png') }}" alt="Joueur 2" class="avatar">
             <span>Joueur 2</span>
         </div>
         <div class = "hand hand-top">
@@ -23,7 +30,7 @@
      <div class = "middle">
         <div class="side side-left">
             <div class="player-info">
-                <img src="{{ asset('images/user.png') }}" alt="Joueur 1" class="avatar avatar-left">
+                <img src="{{ asset(game.currentTurn == 1 ? 'images/user-play.png' : 'images/user.png') }}" alt="Joueur 1" class="avatar">
                 <span>Joueur 1</span>
             </div>
             <div class="hand hand-left">
@@ -44,7 +51,7 @@
                 {% endfor %}
             </div>
             <div class="player-info">
-                <img src="{{ asset('images/user.png') }}" alt="Joueur 3" class="avatar avatar-right">
+                <img src="{{ asset(game.currentTurn == 3 ? 'images/user-play.png' : 'images/user.png') }}" alt="Joueur 3" class="avatar">
                 <span>Joueur 3</span>
             </div>
         </div>

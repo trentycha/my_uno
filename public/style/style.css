@@ -5,6 +5,19 @@ body {
     font-family: Impact, sans-serif;
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+}
+
+.btn-quit {
+    background: #444;
+    font-size: 1rem;
+    padding: 10px 20px;
+}
+
 .table {
     display: flex;
     flex-direction: column;
