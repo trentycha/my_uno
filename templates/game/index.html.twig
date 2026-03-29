@@ -9,37 +9,50 @@
 <div class = "table">
 
     <div class ="top">
-        <h2>Joueur 2</h2>
-        <div class = "hand">
+        <div class="player-info">
+            <img src="{{ asset('images/user.png') }}" alt="Joueur 2" class="avatar avatar-top">
+            <span>Joueur 2</span>
+        </div>
+        <div class = "hand hand-top">
             {% for card in game.handEnemy2 %}
-                <div class="card {{ card.color }} {% if card.number == 'R' %}reverse{% endif %}">{{ card.number }}</div>
+                <div class="card back"></div>
             {% endfor %}
         </div>
     </div>
 
      <div class = "middle">
-        <div class="hand hand-left">
-        <h2>Joueur 1</h2>
-            {% for card in game.handEnemy1 %}
-                <div class="card {{ card.color }} {% if card.number == 'R' %}reverse{% endif %}">{{ card.number }}</div>
-            {% endfor %}
+        <div class="side side-left">
+            <div class="player-info">
+                <img src="{{ asset('images/user.png') }}" alt="Joueur 1" class="avatar avatar-left">
+                <span>Joueur 1</span>
+            </div>
+            <div class="hand hand-left">
+                {% for card in game.handEnemy1 %}
+                    <div class="card back"></div>
+                {% endfor %}
+            </div>
         </div>
 
         <div class = "pile">
             <div class="card {{ pileCard.color }} {% if pileCard.number == 'R' %}reverse{% endif %}">{{ pileCard.number }}</div>
         </div>
 
-        <div class="hand hand-right">
-        <h2>Joueur 3</h2>
-            {% for card in game.handEnemy3 %}
-                <div class="card {{ card.color }} {% if card.number == 'R' %}reverse{% endif %}">{{ card.number }}</div>
-            {% endfor %}
+        <div class="side side-right">
+            <div class="hand hand-right">
+                {% for card in game.handEnemy3 %}
+                    <div class="card back"></div>
+                {% endfor %}
+            </div>
+            <div class="player-info">
+                <img src="{{ asset('images/user.png') }}" alt="Joueur 3" class="avatar avatar-right">
+                <span>Joueur 3</span>
+            </div>
         </div>
     </div>
 
     <div class = "bottom">
-        <h2>Mon jeu</h2>
-        <div class="hand">
+        <h2 class="player-title">Mon jeu</h2>
+        <div class="hand hand-player">
             {% for index, card in game.handPlayer %}
                 {% if card in playableCards %}
                     <a href="{{ path('app_player', {id: game.id, card: index}) }}">

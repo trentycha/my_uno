@@ -32,6 +32,7 @@ body {
 .card.playable { cursor: pointer; outline: 3px solid white; }
 .card.playable:hover { filter: brightness(1.2); }
 .card.reverse { font-size: 1.6rem; font-weight: bold; letter-spacing: -1px;}
+.card.back {background: #1a1a1a; border-color: #444; }
 
 a { text-decoration: none; }
 
@@ -46,6 +47,18 @@ a { text-decoration: none; }
     display: flex;
     flex-direction: row;
     gap: 8px;
+}
+
+.hand-player {
+    flex-wrap: wrap;
+    max-width: calc(7 * 50px + 6 * 8px);
+    justify-content: center;
+}
+
+.hand-top {
+    flex-wrap: wrap;
+    max-width: calc(7 * 50px + 6 * 8px);
+    justify-content: center;
 }
 
 .hand-left {
@@ -66,8 +79,48 @@ a { text-decoration: none; }
     margin: -10px;
 }
 
+.hand-left, .hand-right {
+    flex-wrap: wrap;
+    max-height: calc(7 * 70px + 6 * 8px);
+}
+
 .pile {
     justify-content: center;
+}
+
+.player-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-size: 0.9rem;
+    font-family: Arial;
+}
+
+.player-title {
+    color: white;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.side {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
 
 .home {
