@@ -18,7 +18,7 @@ class GameService
         if (rand(1, 5) === 1) {
             return [
                 "color" => $this->colors[array_rand($this->colors)],
-                "number" => "R"
+                "number" => array_rand(["R" => 0, "X" => 1])
             ];
         }
 
@@ -75,6 +75,12 @@ class GameService
             $game->setDirection(!$game->isDirection());
         }
 
+        $next = $this->nextTurn($playerId, $game->isDirection());
+
+        if ($card["number"] === "X") {
+            $next = $this->nextTurn($next, $game->isDirection());
+        }
+
         $hand = $game->getHandPlayer();
         $hand = array_values(array_filter($hand, fn($c) => $c !== $card));
         $game->setHandPlayer($hand);
@@ -84,7 +90,6 @@ class GameService
             return;
         }
 
-        $next = $this->nextTurn($playerId, $game->isDirection());
         $game->setCurrentTurn($next);
 
     }
@@ -123,7 +128,7 @@ class GameService
 
             if ($playedCard["number"] === "R") {
             $game->setDirection(!$game->isDirection());
-        }
+            }
         }
 
         if ($enemyId === 1) {
@@ -140,6 +145,11 @@ class GameService
         }
 
         $next = $this->nextTurn($enemyId, $game->isDirection());
+
+        if (isset($playedCard) && $playedCard["number"] === "X") {
+            $next = $this->nextTurn($next, $game->isDirection());
+        }
+
         $game->setCurrentTurn($next);
     }
 

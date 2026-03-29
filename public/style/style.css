@@ -44,7 +44,7 @@ body {
 .card.yellow { background: #de9014; }
 .card.playable { cursor: pointer; outline: 3px solid white; }
 .card.playable:hover { filter: brightness(1.2); }
-.card.reverse { font-size: 1.6rem; font-weight: bold; letter-spacing: -1px;}
+.card.special { font-size: 1.6rem; font-weight: bold; letter-spacing: -1px;}
 .card.back {background: #1a1a1a; border-color: #444; }
 
 a { text-decoration: none; }
