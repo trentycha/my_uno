@@ -18,7 +18,7 @@ class GameService
         if (rand(1, 5) === 1) {
             return [
                 "color" => $this->colors[array_rand($this->colors)],
-                "number" => array_rand(["R" => 0, "X" => 1])
+                "number" => array_rand(["R" => 0, "X" => 1, "+2" => 2])
             ];
         }
 
@@ -81,6 +81,11 @@ class GameService
             $next = $this->nextTurn($next, $game->isDirection());
         }
 
+        if ($card["number"] === "+2") {
+            $this->drawTwo($game, $next);
+            $next = $this->nextTurn($next, $game->isDirection());
+        }
+
         $hand = $game->getHandPlayer();
         $hand = array_values(array_filter($hand, fn($c) => $c !== $card));
         $game->setHandPlayer($hand);
@@ -102,6 +107,31 @@ class GameService
 
         $next = $this->nextTurn(0, $game->isDirection());
         $game->setCurrentTurn($next);
+    }
+
+    public function drawTwo(Game $game, int $playerId): void
+    {
+        if ($playerId === 0) {
+            $hand = $game->getHandPlayer();
+            $hand[] = $this->randomCard();
+            $hand[] = $this->randomCard();
+            $game->setHandPlayer($hand);
+        } elseif ($playerId === 1) {
+            $hand = $game->getHandEnemy1();
+            $hand[] = $this->randomCard();
+            $hand[] = $this->randomCard();
+            $game->setHandEnemy1($hand);
+        } elseif ($playerId === 2) {
+            $hand = $game->getHandEnemy2();
+            $hand[] = $this->randomCard();
+            $hand[] = $this->randomCard();
+            $game->setHandEnemy2($hand);
+        } elseif ($playerId === 3) {
+            $hand = $game->getHandEnemy3();
+            $hand[] = $this->randomCard();
+            $hand[] = $this->randomCard();
+            $game->setHandEnemy3($hand);
+        }
     }
 
     public function enemyTurn(Game $game, int $enemyId): void
@@ -147,6 +177,11 @@ class GameService
         $next = $this->nextTurn($enemyId, $game->isDirection());
 
         if (isset($playedCard) && $playedCard["number"] === "X") {
+            $next = $this->nextTurn($next, $game->isDirection());
+        }
+
+        if (isset($playedCard) && $playedCard["number"] === "+2") {
+            $this->drawTwo($game, $next);
             $next = $this->nextTurn($next, $game->isDirection());
         }
 

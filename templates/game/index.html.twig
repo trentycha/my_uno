@@ -6,7 +6,6 @@
 
 <div class="header">
 
-    <h1>My Uno</h1>
     <a href="{{ path('app_home') }}">
         <div class="btn btn-quit">Quitter</div>
     </a>
@@ -41,7 +40,7 @@
         </div>
 
         <div class = "pile">
-            <div class="card {{ pileCard.color }} {% if pileCard.number == 'R' or pileCard.number == 'X' %}special{% endif %}">{{ pileCard.number }}</div>
+            <div class="card {{ pileCard.color }} {% if pileCard.number == 'R' or pileCard.number == 'X' or pileCard.number == '+2' %}special{% endif %}">{{ pileCard.number }}</div>
         </div>
 
         <div class="side side-right">
@@ -63,10 +62,10 @@
             {% for index, card in game.handPlayer %}
                 {% if card in playableCards %}
                     <a href="{{ path('app_player', {id: game.id, card: index}) }}">
-                        <div class="card {{ card.color }} playable {% if card.number == 'R' or card.number == 'X' %}special{% endif %}">{{ card.number }}</div>
+                        <div class="card {{ card.color }} playable {% if card.number == 'R' or card.number == 'X' or card.number == '+2' %}special{% endif %}">{{ card.number }}</div>
                     </a>
                 {% else %}
-                    <div class="card {{ card.color }} {% if card.number == 'R' or card.number == 'X' %}special{% endif %}">{{ card.number }}</div>
+                    <div class="card {{ card.color }} {% if card.number == 'R' or card.number == 'X' or card.number == '+2' %}special{% endif %}">{{ card.number }}</div>
                 {% endif %}
             {% endfor %}
 
